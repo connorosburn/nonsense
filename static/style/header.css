@@ -1,0 +1,25 @@
+header {
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-envenly;
+    align-items: center;
+    height: 10%;
+    margin: 0 auto;
+}
+
+header h1 {
+    text-align: center;
+    width: 100%;
+    font-size: 200%;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+}
+
+header.spacer {
+    width: 100%;
+}

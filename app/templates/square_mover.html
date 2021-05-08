@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'style/square_mover.css' %}">
+{% endblock %}
+
+{% block content %}
+    <canvas id="stupid-square-mover"></canvas>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'bundles/square_mover.bundle.js' %}"></script>
+{% endblock %}
