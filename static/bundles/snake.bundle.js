@@ -1,260 +1,13 @@
 /******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./javascript/square_mover/index.js":
-/*!******************************************!*\
-  !*** ./javascript/square_mover/index.js ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _util_Vector_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/Vector.js */ "./javascript/util/Vector.js");
-/* harmony import */ var _util_Rectangle_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/Rectangle.js */ "./javascript/util/Rectangle.js");
-
-
-let canvas = document.getElementById('stupid-square-mover');
-canvas.height = canvas.clientHeight;
-canvas.width = canvas.clientWidth;
-let heldKeys = [];
-document.addEventListener('keydown', e => {
-  if (!heldKeys.includes(e.code)) {
-    heldKeys.push(e.code);
-  }
-});
-document.addEventListener('keyup', e => {
-  heldKeys = heldKeys.filter(k => k != e.code);
-});
-
-window.onblur = () => {
-  heldKeys = [];
-};
-
-let meRect = new _util_Rectangle_js__WEBPACK_IMPORTED_MODULE_1__.default({
-  color: '#007F00',
-  position: new _util_Vector_js__WEBPACK_IMPORTED_MODULE_0__.default(0, 0),
-  size: new _util_Vector_js__WEBPACK_IMPORTED_MODULE_0__.default(canvas.height / 15, canvas.width / 15)
-});
-let otherRect = new _util_Rectangle_js__WEBPACK_IMPORTED_MODULE_1__.default({
-  color: 'pink',
-  position: new _util_Vector_js__WEBPACK_IMPORTED_MODULE_0__.default(canvas.width / 2, canvas.height / 2),
-  size: new _util_Vector_js__WEBPACK_IMPORTED_MODULE_0__.default(canvas.width / 10, canvas.height / 10)
-});
-const frameRate = 250;
-const speed = 0.2;
-
-const attemptMove = o => {
-  if (!new _util_Rectangle_js__WEBPACK_IMPORTED_MODULE_1__.default({
-    position: meRect.getPosition().add(o),
-    size: meRect.getSize()
-  }).intersects(otherRect)) {
-    meRect.move(o);
-  } else {
-    alert('GTFO GREEN');
-  }
-};
-
-const interval = 1000 / frameRate;
-setInterval(() => {
-  let directionVector = new _util_Vector_js__WEBPACK_IMPORTED_MODULE_0__.default(0, 0);
-  heldKeys.forEach(k => {
-    switch (k) {
-      case 'KeyW':
-        directionVector = directionVector.add(new _util_Vector_js__WEBPACK_IMPORTED_MODULE_0__.default(0, -1));
-        break;
-
-      case 'KeyS':
-        directionVector = directionVector.add(new _util_Vector_js__WEBPACK_IMPORTED_MODULE_0__.default(0, 1));
-        break;
-
-      case 'KeyA':
-        directionVector = directionVector.add(new _util_Vector_js__WEBPACK_IMPORTED_MODULE_0__.default(-1, 0));
-        break;
-
-      case 'KeyD':
-        directionVector = directionVector.add(new _util_Vector_js__WEBPACK_IMPORTED_MODULE_0__.default(1, 0));
-        break;
-    }
-  });
-  const offset = directionVector.unitVector().multiply(interval).multiply(speed);
-  attemptMove(offset);
-  let context = canvas.getContext('2d');
-  context.fillStyle = 'white';
-  context.fillRect(0, 0, canvas.width, canvas.height);
-  meRect.render(context);
-  otherRect.render(context);
-}, interval);
-
-/***/ }),
-
-/***/ "./javascript/util/Rectangle.js":
-/*!**************************************!*\
-  !*** ./javascript/util/Rectangle.js ***!
-  \**************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-function _classPrivateFieldGet(receiver, privateMap) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get"); return _classApplyDescriptorGet(receiver, descriptor); }
-
-function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
-
-function _classPrivateFieldSet(receiver, privateMap, value) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set"); _classApplyDescriptorSet(receiver, descriptor, value); return value; }
-
-function _classExtractFieldDescriptor(receiver, privateMap, action) { if (!privateMap.has(receiver)) { throw new TypeError("attempted to " + action + " private field on non-instance"); } return privateMap.get(receiver); }
-
-function _classApplyDescriptorSet(receiver, descriptor, value) { if (descriptor.set) { descriptor.set.call(receiver, value); } else { if (!descriptor.writable) { throw new TypeError("attempted to set read only private field"); } descriptor.value = value; } }
-
-var _size = new WeakMap();
-
-var _position = new WeakMap();
-
-var _color = new WeakMap();
-
-class Rectangle {
-  constructor(params) {
-    _size.set(this, {
-      writable: true,
-      value: void 0
-    });
-
-    _position.set(this, {
-      writable: true,
-      value: void 0
-    });
-
-    _color.set(this, {
-      writable: true,
-      value: void 0
-    });
-
-    _classPrivateFieldSet(this, _size, params.size);
-
-    _classPrivateFieldSet(this, _position, params.position);
-
-    _classPrivateFieldSet(this, _color, params.color);
-  }
-
-  move(offset) {
-    _classPrivateFieldSet(this, _position, _classPrivateFieldGet(this, _position).add(offset));
-  }
-
-  getSize() {
-    return _classPrivateFieldGet(this, _size);
-  }
-
-  getPosition() {
-    return _classPrivateFieldGet(this, _position);
-  }
-
-  intersects(rect) {
-    const diff = _classPrivateFieldGet(rect, _size) - _classPrivateFieldGet(this, _size);
-
-    return Math.abs(_classPrivateFieldGet(this, _position).x() + _classPrivateFieldGet(this, _size).x() / 2 - (_classPrivateFieldGet(rect, _position).x() + _classPrivateFieldGet(rect, _size).x() / 2)) * 2 < _classPrivateFieldGet(this, _size).x() + _classPrivateFieldGet(rect, _size).x() && Math.abs(_classPrivateFieldGet(this, _position).y() + _classPrivateFieldGet(this, _size).y() / 2 - (_classPrivateFieldGet(rect, _position).y() + _classPrivateFieldGet(rect, _size).y() / 2)) * 2 < _classPrivateFieldGet(this, _size).y() + _classPrivateFieldGet(rect, _size).y();
-  }
-
-  render(context) {
-    context.fillStyle = _classPrivateFieldGet(this, _color);
-    context.fillRect(_classPrivateFieldGet(this, _position).x(), _classPrivateFieldGet(this, _position).y(), _classPrivateFieldGet(this, _size).x(), _classPrivateFieldGet(this, _size).y());
-  }
-
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Rectangle);
-
-/***/ }),
-
-/***/ "./javascript/util/Vector.js":
+/***/ "./javascript/snake/index.js":
 /*!***********************************!*\
-  !*** ./javascript/util/Vector.js ***!
+  !*** ./javascript/snake/index.js ***!
   \***********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ (() => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-function _classPrivateFieldGet(receiver, privateMap) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get"); return _classApplyDescriptorGet(receiver, descriptor); }
-
-function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
-
-function _classPrivateFieldSet(receiver, privateMap, value) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set"); _classApplyDescriptorSet(receiver, descriptor, value); return value; }
-
-function _classExtractFieldDescriptor(receiver, privateMap, action) { if (!privateMap.has(receiver)) { throw new TypeError("attempted to " + action + " private field on non-instance"); } return privateMap.get(receiver); }
-
-function _classApplyDescriptorSet(receiver, descriptor, value) { if (descriptor.set) { descriptor.set.call(receiver, value); } else { if (!descriptor.writable) { throw new TypeError("attempted to set read only private field"); } descriptor.value = value; } }
-
-var _underlying = new WeakMap();
-
-class Vector {
-  constructor() {
-    _underlying.set(this, {
-      writable: true,
-      value: void 0
-    });
-
-    _classPrivateFieldSet(this, _underlying, Array.from(arguments));
-  }
-
-  x() {
-    return _classPrivateFieldGet(this, _underlying)[0];
-  }
-
-  y() {
-    return _classPrivateFieldGet(this, _underlying)[1];
-  }
-
-  add(vec) {
-    const newValues = _classPrivateFieldGet(this, _underlying).map((element, i) => {
-      return element + _classPrivateFieldGet(vec, _underlying)[i];
-    });
-
-    return new Vector(...newValues);
-  }
-
-  multiply(value) {
-    const newValues = _classPrivateFieldGet(this, _underlying).map(element => {
-      return element * value;
-    });
-
-    return new Vector(...newValues);
-  }
-
-  divide(value) {
-    const newValues = _classPrivateFieldGet(this, _underlying).map(element => {
-      return element / value;
-    });
-
-    return new Vector(...newValues);
-  }
-
-  dotProduct(vec) {
-    let total = 0;
-
-    for (let i = 0; i < _classPrivateFieldGet(this, _underlying).length; i++) {
-      total += _classPrivateFieldGet(vec, _underlying)[i] * _classPrivateFieldGet(this, _underlying)[i];
-    }
-
-    return total;
-  }
-
-  unitVector() {
-    const magnitude = Math.sqrt(Math.abs(this.dotProduct(this)));
-
-    if (magnitude != 0) {
-      return this.divide(Math.sqrt(Math.abs(this.dotProduct(this))));
-    } else {
-      const newValues = _classPrivateFieldGet(this, _underlying).map(() => 0);
-
-      return new Vector(...newValues);
-    }
-  }
-
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Vector);
+console.log('ass-eat');
 
 /***/ })
 
@@ -303,18 +56,6 @@ class Vector {
 /******/ 	__webpack_require__.i = [];
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/get javascript update chunk filename */
 /******/ 	(() => {
 /******/ 		// This function allow to reference all chunks
@@ -326,7 +67,7 @@ class Vector {
 /******/ 	
 /******/ 	/* webpack/runtime/get update manifest filename */
 /******/ 	(() => {
-/******/ 		__webpack_require__.hmrF = () => ("square_mover." + __webpack_require__.h() + ".hot-update.json");
+/******/ 		__webpack_require__.hmrF = () => ("snake." + __webpack_require__.h() + ".hot-update.json");
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
@@ -394,17 +135,6 @@ class Vector {
 /******/ 			script.onerror = onScriptComplete.bind(null, script.onerror);
 /******/ 			script.onload = onScriptComplete.bind(null, script.onload);
 /******/ 			needAttach && document.head.appendChild(script);
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
 /******/ 	})();
 /******/ 	
@@ -806,7 +536,7 @@ class Vector {
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
-/******/ 			"square_mover": 0
+/******/ 			"snake": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -1316,8 +1046,8 @@ class Vector {
 /******/ 	// module cache are used so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	var __webpack_exports__ = __webpack_require__("./javascript/square_mover/index.js");
+/******/ 	var __webpack_exports__ = __webpack_require__("./javascript/snake/index.js");
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=square_mover.bundle.js.map
+//# sourceMappingURL=snake.bundle.js.map

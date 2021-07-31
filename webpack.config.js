@@ -18,6 +18,7 @@ module.exports = {
     'mode': 'development',
     entry: {
         square_mover: './javascript/square_mover/index.js',
+        snake: './javascript/snake/index.js',
     },
     output: {
         path: path.resolve(__dirname, "static/bundles"),

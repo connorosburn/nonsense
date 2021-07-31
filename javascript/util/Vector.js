@@ -33,6 +33,15 @@ class Vector {
         return new Vector(...newValues);
     }
 
+    equals(vec) {
+        for(let i = 0; i < this.#underlying.length; i++) {
+            if(this.#underlying[i] != vec.#underlying[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     dotProduct(vec) {
         let total = 0;
         for(let i = 0; i < this.#underlying.length; i++) {

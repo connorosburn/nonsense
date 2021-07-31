@@ -1,9 +1,15 @@
-import Vector from './Vector.js';
-import Rectangle from './Rectangle.js';
+import Vector from '../util/Vector.js';
+import Rectangle from '../util/Rectangle.js';
 
 let canvas = document.getElementById('stupid-square-mover');
-canvas.height = canvas.clientHeight;
-canvas.width = canvas.clientWidth;
+
+if(canvas.clientWidth < canvas.clientHeight) {
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientWidth;
+} else {
+    canvas.width = canvas.clientHeight;
+    canvas.height = canvas.clientHeight;
+}
 
 let heldKeys = [];
 
@@ -24,7 +30,7 @@ let meRect = new Rectangle({
     size: new Vector(canvas.height / 15, canvas.width / 15)
 });
 let otherRect = new Rectangle({
-    color: 'orange',
+    color: 'pink',
     position: new Vector(canvas.width / 2, canvas.height / 2),
     size: new Vector(canvas.width / 10, canvas.height / 10)
 });
